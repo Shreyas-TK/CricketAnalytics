@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Top run scorers 
-def top_runs_scorers(deliveries, top_n = 10):
+def top_run_scorers(deliveries, top_n = 10):
     runs = (
         deliveries
         .groupby("batsman")["batsman_runs"]
@@ -16,9 +16,14 @@ def top_runs_scorers(deliveries, top_n = 10):
 
 # StrikeRate calculation 
 def strike_rate(deliveries, top_n = 10):
+
+    legal_balls = deliveries[
+        deliveries["isWide"] != 1
+    ]
+        
     #Total balls
     balls = (
-        deliveries
+        legal_balls
         .groupby("batsman")
         .size()
         .reset_index(name="balls")
