@@ -50,3 +50,50 @@ def strike_rate(deliveries, top_n = 10):
         by="strike_rate",
         ascending=False
     ).head(top_n)
+
+def batting_average(deliveries, top_n = 10):
+    runs = (
+        deliveries
+        .groupby("batsman")["batsman_runs"]
+        .sum()
+        .reset_index()
+     )
+
+    dismissals = (
+        deliveries[
+            deliveries["player_dismissed"].notna()
+        ]
+        .groupby("player_dismissed")
+        .size()
+        .reset_index(name="outs")
+     )
+
+    dismissals.rename(
+        columns={"player_dismissed":"batsman"},
+        inplace = True
+    )
+    avg = runs.merge(
+        dismissals,
+        on="batsman",
+        how="left"
+    )
+
+    avg["outs"] = avg["outs"].fillna(0)
+
+    avg = avg[avg["outs"] > 0
+    ]
+
+    avg["average"] = (
+        avg["batsman_runs"] / avg["outs"]
+    )
+
+    avg = avg[avg["batsman_runs"] >= 1000]
+
+    return (
+        avg.sort_values(
+            "average",
+            ascending=False
+        ).head(top_n)
+    )
+
+
