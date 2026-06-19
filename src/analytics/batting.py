@@ -51,6 +51,8 @@ def strike_rate(deliveries, top_n = 10):
         ascending=False
     ).head(top_n)
 
+#Batting aveeeage score 
+
 def batting_average(deliveries, top_n = 10):
     runs = (
         deliveries
@@ -95,5 +97,56 @@ def batting_average(deliveries, top_n = 10):
             ascending=False
         ).head(top_n)
     )
+    
+# Boundary percentage
 
+def boundary_percentage(deliveries, top_n=10):
 
+    balls = (
+        deliveries[
+            deliveries["isWide"] != 1
+        ]
+        .groupby("batsman")
+        .size()
+        .reset_index(name="balls")
+    )
+
+    boundaries = deliveries[
+        deliveries["batsman_runs"].isin([4, 6])
+    ]
+
+    boundary_count = (
+        boundaries
+        .groupby("batsman")
+        .size()
+        .reset_index(name="boundaries")
+    )
+
+    result = balls.merge(
+        boundary_count,
+        on="batsman",
+        how="left"
+    )
+
+    result["boundaries"] = (
+        result["boundaries"]
+        .fillna(0)
+    )
+
+    result["boundary_pct"] = (
+        result["boundaries"]
+        / result["balls"]
+    ) * 100
+
+    result = result[
+        result["balls"] >= 500
+    ]
+
+    return (
+        result
+        .sort_values(
+            "boundary_pct",
+            ascending=False
+        )
+        .head(top_n)
+    )

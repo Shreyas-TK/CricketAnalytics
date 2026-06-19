@@ -1,19 +1,25 @@
 from src.data_loader import load_data
 
-from src.analytics.batting import (
-    top_run_scorers,
-    strike_rate,
-    batting_average
-)
+# from src.analytics.batting import (
+#     top_run_scorers,
+#     strike_rate,
+#     batting_average,
+#     boundary_percentage
+# )
 
-from src.analytics.bowling import (
-    top_wicket_takers,
-    economy_rate
-)
+# from src.analytics.bowling import (
+#     top_wicket_takers,
+#     economy_rate
+# )
 
 matches, deliveries = load_data()
 
-print(top_run_scorers(deliveries))
-print(top_wicket_takers(deliveries))
-print(batting_average(deliveries))
-print(economy_rate(deliveries))
+# print(top_run_scorers(deliveries))
+# print(top_wicket_takers(deliveries))
+# print(batting_average(deliveries))
+# print(economy_rate(deliveries))
+# print(boundary_percentage(deliveries))
+
+from src.analytics.team import team_win_percentage
+
+print(team_win_percentage(matches))
