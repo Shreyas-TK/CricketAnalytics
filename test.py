@@ -33,7 +33,18 @@ print(toss_impact(matches))
 print(venue_toss_impact(matches))
 
 #Batting visualization test
-from src.visualization.batting_plots import(plot_top_run_scorers)
+# from src.visualization.batting_plots import(plot_top_run_scorers)
 
-runs = top_run_scorers(deliveries)
-plot_top_run_scorers(runs)
+# runs = top_run_scorers(deliveries)
+# plot_top_run_scorers(runs)
+
+#Bowling visualization test 
+# from src.visualization.bowling_plots import(plot_top_wicket_takers)
+
+# wickets = top_wicket_takers(deliveries)
+# plot_top_wicket_takers(wickets)
+
+from src.visualization.team_plots import(plot_team_win_percentage)
+
+teams = team_win_percentage(matches)
+plot_team_win_percentage(teams)
