@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+import joblib
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
@@ -14,6 +15,23 @@ from sklearn.metrics import accuracy_score
 
 
 MODEL_PATH = Path(__file__).resolve().parents[2] / "models" / "match_predictor.joblib"
+
+
+def _ensure_model_dir() -> None:
+    MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+
+def save_match_outcome_model(model: Pipeline) -> None:
+    """Save the trained match prediction model to disk."""
+    _ensure_model_dir()
+    joblib.dump(model, MODEL_PATH)
+
+
+def load_saved_match_outcome_model() -> Pipeline | None:
+    """Load a previously saved match prediction model if available."""
+    if MODEL_PATH.exists():
+        return joblib.load(MODEL_PATH)
+    return None
 
 
 def _prepare_feature_data(matches: pd.DataFrame) -> pd.DataFrame:
@@ -57,6 +75,17 @@ def build_match_outcome_model(matches: pd.DataFrame) -> tuple[Pipeline, float]:
     predictions = pipeline.predict(X_test)
     accuracy = float(accuracy_score(y_test, predictions))
     return pipeline, accuracy
+
+
+def get_match_outcome_model(matches: pd.DataFrame) -> tuple[Pipeline, str]:
+    """Load an existing model if available, otherwise train and save a new one."""
+    model = load_saved_match_outcome_model()
+    if model is not None:
+        return model, "Saved model loaded"
+
+    model, accuracy = build_match_outcome_model(matches)
+    save_match_outcome_model(model)
+    return model, f"{accuracy:.2%}"
 
 
 def predict_match_winner(model: Pipeline, team1: str, team2: str, venue: str, toss_winner_is_team1: bool, toss_decision_bat: bool, match_year: int) -> Any:

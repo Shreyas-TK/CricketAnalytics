@@ -8,7 +8,7 @@ from common import (
     render_missing_data_error,
     render_sidebar,
 )
-from src.ml.predictive_model import build_match_outcome_model, predict_match_winner
+from src.ml.predictive_model import get_match_outcome_model, predict_match_winner
 
 configure_page("Match Prediction", "🤖")
 render_sidebar()
@@ -24,10 +24,10 @@ except Exception as exc:
 teams = sorted(set(matches["team1"].dropna()).union(set(matches["team2"].dropna())))
 venues = sorted(set(matches["venue"].dropna()))
 
-with st.spinner("Training prediction model..."):
-    model, accuracy = build_match_outcome_model(matches)
+with st.spinner("Loading prediction model..."):
+    model, model_status = get_match_outcome_model(matches)
 
-st.metric("Model accuracy", f"{accuracy:.2%}")
+st.metric("Model status", model_status)
 
 team1 = st.selectbox("Home Team", teams, index=0)
 team2 = st.selectbox("Away Team", teams, index=1)
