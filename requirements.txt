@@ -11,6 +11,8 @@ plotly>=5.14.0
 
 # Development & Testing (optional)
 pytest>=7.4.0
+pytest-cov>=4.1.0
 black>=23.0.0
 flake8>=6.0.0
+isort>=5.12.0
 mypy>=1.0.0
