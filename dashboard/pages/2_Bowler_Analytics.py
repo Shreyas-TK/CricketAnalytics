@@ -22,6 +22,7 @@ configure_page("Bowler Analytics", "🎯")
 render_sidebar()
 
 render_page_header("Bowler Analytics", "🎯")
+st.info("View bowler efficiency, wickets, and venue impact with clear metrics and charts.")
 
 try:
     with st.spinner("Loading bowler data..."):
@@ -50,6 +51,10 @@ metric_card(col5, "Overs", summary["Overs"])
 metric_card(col6, "Runs Conceded", f"{summary['Runs']:,}")
 metric_card(col7, "Strike Rate", summary["Strike Rate"])
 metric_card(col8, "Best Bowling", best)
+
+st.divider()
+
+st.markdown("### Bowler performance overview")
 
 tab1, tab2, tab3 = st.tabs(["📈 Career", "🏏 Matchups", "🏅 Milestones"])
 

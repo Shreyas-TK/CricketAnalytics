@@ -16,6 +16,7 @@ configure_page("Overview", "🏏")
 render_sidebar()
 
 render_page_header("Overview", "🏏")
+st.info("Navigate to each page to explore player, bowler, team, venue, and match prediction insights.")
 
 try:
     with st.spinner("Loading IPL match and delivery data..."):
@@ -39,6 +40,10 @@ metric_card(col3, "Seasons Covered", f"{season_count}")
 metric_card(col4, "Teams", f"{len(team_count)}")
 
 section_title("Explore Analytics")
+st.markdown(
+    "Choose a focus area to discover batting, bowling, team, and venue performance details. "
+    "Each page combines metrics, charts, and trends for fast IPL insight." 
+)
 col1, col2 = st.columns(2, gap="large")
 
 with col1:
@@ -72,6 +77,15 @@ with col2:
         icon="🏟️",
         label="Open Venue Analytics",
     )
+    nav_card(
+        "Match Prediction",
+        "Use ML-powered predictions to estimate match winners from toss and venue factors.",
+        "pages/5_Match_Prediction.py",
+        icon="🤖",
+        label="Open Match Prediction",
+    )
+
+st.divider()
 
 with st.spinner("Calculating dashboard highlights..."):
     win_table = team_win_percentage(matches)

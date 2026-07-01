@@ -21,6 +21,7 @@ configure_page("Venue Analytics", "🏟️")
 render_sidebar()
 
 render_page_header("Venue Analytics", "🏟️")
+st.info("Select a venue to explore scoring trends, toss outcomes, and team performance at the ground.")
 
 try:
     with st.spinner("Loading venue data..."):
@@ -41,6 +42,10 @@ metric_card(col1, "Matches", f"{summary['Matches']:,}")
 metric_card(col2, "Avg Innings Score", summary["Avg Innings Score"])
 metric_card(col3, "Highest Innings Score", summary["Highest Innings Score"])
 metric_card(col4, "Toss Win Match Win %", f"{summary['Toss Win Match Win %']}%")
+
+st.divider()
+
+st.markdown("### Venue overview")
 
 tab1, tab2 = st.tabs(["📈 Venue Trend", "🏆 Venue Leaders"])
 

@@ -20,6 +20,7 @@ configure_page("Team Analytics", "🏆")
 render_sidebar()
 
 render_page_header("Team Analytics", "🏆")
+st.info("Compare team performance and discover season trends, top batters, and leading bowlers.")
 
 try:
     with st.spinner("Loading team data..."):
@@ -39,6 +40,10 @@ metric_card(col2, "Wins", f"{summary['Wins']:,}")
 metric_card(col3, "Losses", f"{summary['Losses']:,}")
 metric_card(col4, "Win %", f"{summary['Win %']}%")
 metric_card(col5, "Toss Wins", f"{summary['Toss Wins']:,}")
+
+st.divider()
+
+st.markdown("### Team overview")
 
 tab1, tab2 = st.tabs(["📈 Season Trend", "🏅 Top Players"])
 

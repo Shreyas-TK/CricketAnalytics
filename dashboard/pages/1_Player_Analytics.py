@@ -24,6 +24,7 @@ configure_page("Player Analytics", "🏏")
 render_sidebar()
 
 render_page_header("Player Analytics", "🏏")
+st.info("Select a player to view an interactive batting performance summary and scoring breakdown.")
 
 try:
     with st.spinner("Loading player data..."):
@@ -52,6 +53,10 @@ metric_card(col5, "Highest Score", highest)
 metric_card(col6, "50s", milestones["50s"])
 metric_card(col7, "100s", milestones["100s"])
 metric_card(col8, "Boundary %", f"{summary['Boundary %']}%")
+
+st.divider()
+
+st.markdown("### Player performance overview")
 
 tab1, tab2, tab3 = st.tabs(["📈 Career", "🎯 Matchups", "📊 Scoring"])
 
