@@ -38,6 +38,12 @@ This project provides an interactive web-based dashboard for exploring extensive
 - **Performance Metrics**: Average runs, wicket rates, and trends
 - **Recent Matches**: Historical match data at each venue
 
+### 🤖 AI / Machine Learning
+- **Match Outcome Prediction**: Predict the likely winner using historical match metadata
+- **Model Training**: Trains a RandomForest model on IPL match results
+- **Interactive ML Page**: Choose teams, venue, toss winner, and toss decision
+- **Saved Model**: Reuses the trained model to avoid repeated retraining
+
 ## 📊 Dashboard Pages
 
 | Page | Description | Key Features |
@@ -47,6 +53,7 @@ This project provides an interactive web-based dashboard for exploring extensive
 | **2_Bowler_Analytics** | Bowler performance metrics | Career, performance, and venue insights tabs |
 | **3_Team_Analytics** | Team-level statistics | Season performance, team composition, head-to-head |
 | **4_Venue_Analytics** | Venue-specific trends | Statistics, team performance, insights |
+| **5_Match_Prediction** | Match outcome prediction | Predict winner from teams, venue, toss, and year |
 
 ## 🚀 Getting Started
 
@@ -91,8 +98,7 @@ CricketAnalytics/
 │       ├── 1_Player_Analytics.py       # Player statistics page
 │       ├── 2_Bowler_Analytics.py       # Bowler statistics page
 │       ├── 3_Team_Analytics.py         # Team statistics page
-│       └── 4_Venue_Analytics.py        # Venue statistics page
-│
+│       └── 4_Venue_Analytics.py        # Venue statistics page│       ├── 5_Match_Prediction.py       # Match prediction page│
 ├── src/
 │   ├── __init__.py
 │   ├── data_loader.py                  # Data loading utilities
