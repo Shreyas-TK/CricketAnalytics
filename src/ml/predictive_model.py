@@ -11,7 +11,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.compose import ColumnTransformer
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, f1_score
 
 
 MODEL_PATH = Path(__file__).resolve().parents[2] / "models" / "match_predictor.joblib"
@@ -54,7 +54,7 @@ def _prepare_feature_data(matches: pd.DataFrame) -> pd.DataFrame:
     return features, target
 
 
-def build_match_outcome_model(matches: pd.DataFrame) -> tuple[Pipeline, float]:
+def build_match_outcome_model(matches: pd.DataFrame) -> tuple[Pipeline, dict[str, Any]]:
     features, target = _prepare_feature_data(matches)
     categorical_features = ["team1", "team2", "venue"]
     numeric_features = ["toss_winner_is_team1", "toss_decision_bat", "match_year"]
@@ -74,7 +74,16 @@ def build_match_outcome_model(matches: pd.DataFrame) -> tuple[Pipeline, float]:
     pipeline.fit(X_train, y_train)
     predictions = pipeline.predict(X_test)
     accuracy = float(accuracy_score(y_test, predictions))
-    return pipeline, accuracy
+    f1 = float(f1_score(y_test, predictions, average="weighted"))
+    report = classification_report(y_test, predictions, output_dict=True, zero_division=0)
+    matrix = confusion_matrix(y_test, predictions)
+    metrics = {
+        "accuracy": accuracy,
+        "f1_weighted": f1,
+        "classification_report": report,
+        "confusion_matrix": matrix,
+    }
+    return pipeline, metrics
 
 
 def get_match_outcome_model(matches: pd.DataFrame) -> tuple[Pipeline, str]:
@@ -83,9 +92,29 @@ def get_match_outcome_model(matches: pd.DataFrame) -> tuple[Pipeline, str]:
     if model is not None:
         return model, "Saved model loaded"
 
-    model, accuracy = build_match_outcome_model(matches)
+    model, metrics = build_match_outcome_model(matches)
     save_match_outcome_model(model)
-    return model, f"{accuracy:.2%}"
+    return model, f"Accuracy {metrics['accuracy']:.2%} | F1 {metrics['f1_weighted']:.2%}"
+
+
+def explain_model_features(model: Pipeline, matches: pd.DataFrame) -> list[dict[str, Any]]:
+    """Return model feature-importance values for recruiter-friendly explainability."""
+    features, _ = _prepare_feature_data(matches)
+    classifier = model.named_steps["clf"]
+    feature_names = model.named_steps["preprocess"].get_feature_names_out()
+    importances = getattr(classifier, "feature_importances_", None)
+    if importances is None:
+        return []
+
+    ranked = sorted(
+        zip(feature_names, importances, strict=False),
+        key=lambda item: item[1],
+        reverse=True,
+    )
+    return [
+        {"feature": feature, "importance": float(importance)}
+        for feature, importance in ranked[:10]
+    ]
 
 
 def predict_match_winner(model: Pipeline, team1: str, team2: str, venue: str, toss_winner_is_team1: bool, toss_decision_bat: bool, match_year: int) -> Any:

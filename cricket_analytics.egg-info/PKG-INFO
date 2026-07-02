@@ -1,0 +1,307 @@
+Metadata-Version: 2.4
+Name: cricket-analytics
+Version: 0.1.0
+Summary: IPL cricket analytics dashboard with predictive modeling
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: pandas>=2.0.0
+Requires-Dist: numpy>=1.24.0
+Requires-Dist: streamlit>=1.28.0
+Requires-Dist: matplotlib>=3.7.0
+Requires-Dist: plotly>=5.14.0
+Requires-Dist: scikit-learn>=1.3.0
+Requires-Dist: joblib>=1.5.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.4.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.1.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: flake8>=6.0.0; extra == "dev"
+Requires-Dist: isort>=5.12.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+
+# 🏏 IPL Cricket Analytics Dashboard
+
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.28%2B-FF4B4B)](https://streamlit.io/)
+[![License](https://img.shields.io/badge/License-MIT-green)](https://opensource.org/licenses/MIT)
+
+A production-style data analytics portfolio project that turns IPL match and delivery data into an interactive, recruiter-friendly product. The project combines data engineering, analytics, visualization, and a lightweight machine learning workflow in a single Streamlit experience.
+
+## 🎯 Project Story
+
+This project demonstrates how to take raw cricket data, validate it, analyze it, and present it through an interactive dashboard that feels like a real analytics product. It highlights:
+- a clean Python package structure
+- reusable analytics functions
+- a Streamlit-based product interface
+- interactive Plotly visualizations
+- a machine learning-based match prediction workflow
+- data quality checks suitable for production-minded portfolios
+
+## 🚀 What Recruiters Can See
+
+- End-to-end data processing from raw CSVs into analytical insights
+- Modular Python code for analytics and machine learning
+- A polished dashboard experience designed for non-technical users
+- Automated validation of core data expectations
+- A reproducible processed-data pipeline for downstream use
+- A stronger ML evaluation story with accuracy and F1 metrics
+- GitHub-ready project hygiene and test coverage
+
+## 🧭 Architecture Overview
+
+```text
+Raw IPL CSVs
+  -> Data validation and cleaning
+  -> Processed datasets for analytics
+  -> Streamlit dashboard + Plotly visualizations
+  -> ML model for match outcome prediction
+```
+
+## ✨ Features
+
+### 🏏 Player Analytics
+- **Career Overview**: Runs scored across seasons with progression tracking
+- **Performance Analysis**: Runs against specific teams and venue breakdowns
+- **Advanced Insights**: Dismissal type distribution and scoring patterns
+- **Key Metrics**: Highest scores, 50s, and 100s count
+- **Data Tables**: Expandable season-by-season breakdowns
+
+### 🎯 Bowler Analytics
+- **Career Statistics**: Matches, wickets, economy rate, and bowling average
+- **Performance Tracking**: Wicket progression by season
+- **Opponents Analysis**: Wickets against each batting team
+- **Venue Performance**: Bowling statistics at different venues
+- **Achievements**: Best bowling figures, 3-wicket and 5-wicket hauls
+
+### 🏆 Team Analytics
+- **Career Overview**: Total matches, wins, losses, and win percentage
+- **Season Performance**: Win rate trends across all seasons
+- **Team Composition**: Top run scorers and wicket takers
+- **Head-to-Head**: Comparative analysis against other teams
+- **Performance Summary**: Season statistics and career metrics
+
+### 🏟️ Venue Analytics
+- **Venue Statistics**: Total matches hosted and seasons covered
+- **Team Performance**: Win records at specific venues
+- **Venue Insights**: First/last matches and most active teams
+- **Performance Metrics**: Average runs, wicket rates, and trends
+- **Recent Matches**: Historical match data at each venue
+
+### 🤖 AI / Machine Learning
+- **Match Outcome Prediction**: Predict the likely winner using historical match metadata
+- **Model Training**: Trains a RandomForest model on IPL match results
+- **Interactive ML Page**: Choose teams, venue, toss winner, and toss decision
+- **Saved Model**: Reuses the trained model to avoid repeated retraining
+
+## 📊 Dashboard Pages
+
+| Page | Description | Key Features |
+|------|-------------|--------------|
+| **Home** | Main dashboard overview | Quick stats, module guide, feature overview |
+| **1_Player_Analytics** | Individual player statistics | Career, performance, and advanced insights tabs |
+| **2_Bowler_Analytics** | Bowler performance metrics | Career, performance, and venue insights tabs |
+| **3_Team_Analytics** | Team-level statistics | Season performance, team composition, head-to-head |
+| **4_Venue_Analytics** | Venue-specific trends | Statistics, team performance, insights |
+| **5_Match_Prediction** | Match outcome prediction | Predict winner from teams, venue, toss, and year |
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Python 3.8+
+- pip (Python package manager)
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/CricketAnalytics.git
+   cd CricketAnalytics
+   ```
+
+2. **Create a virtual environment**
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+   ```
+
+3. **Install dependencies**
+   ```bash
+   make install
+   ```
+
+### Running the Dashboard
+
+```bash
+make run
+```
+
+The dashboard will open in your default browser at `http://localhost:8501`
+
+### Useful Project Commands
+
+```bash
+make test      # Run the full test suite
+make smoke     # Run the analytics smoke test
+./scripts/run_dashboard.sh
+./scripts/smoke_test.sh
+```
+
+## 📁 Project Structure
+
+```
+CricketAnalytics/
+├── dashboard/
+│   ├── app.py                          # Main Streamlit app
+│   └── pages/
+│       ├── 1_Player_Analytics.py       # Player statistics page
+│       ├── 2_Bowler_Analytics.py       # Bowler statistics page
+│       ├── 3_Team_Analytics.py         # Team statistics page
+│       └── 4_Venue_Analytics.py        # Venue statistics page│       ├── 5_Match_Prediction.py       # Match prediction page│
+├── src/
+│   ├── __init__.py
+│   ├── data_loader.py                  # Data loading utilities
+│   ├── analytics/
+│   │   ├── __init__.py
+│   │   ├── batting.py                  # Batting analysis functions
+│   │   ├── bowling.py                  # Bowling analysis functions
+│   │   └── team.py                     # Team analysis functions
+│   ├── services/
+│   │   └── dashboard_data.py           # Dashboard data services
+│   ├── utils/
+│   │   └── team_names.py               # Team name utilities
+│   └── visualizations/
+│       ├── __init__.py
+│       ├── batting_plots.py            # Batting visualizations
+│       ├── bowling_plots.py            # Bowling visualizations
+│       ├── plotly_charts.py            # Interactive Plotly charts
+│       └── team_plots.py               # Team visualizations
+│
+├── data/
+│   ├── raw/
+│   │   ├── deliveries_updated_ipl_upto_2025.csv
+│   │   ├── deliveries_updated_mens_ipl.csv
+│   │   ├── IPL_ball_by_ball_updated.csv
+│   │   ├── matches_updated_ipl_upto_2025.csv
+│   │   └── matches_updated_mens_ipl.csv
+│   └── processed/
+│
+├── notebooks/
+│   ├── batting_analysis.ipynb
+│   ├── bowling_analysis.ipynb
+│   ├── data_exploration.ipynb
+│   └── team_analysis.ipynb
+│
+├── models/
+├── reports/
+│   └── figures/
+│
+├── requirements.txt
+├── README.md
+└── test.py
+```
+
+## 🛠️ Technologies Used
+
+| Technology | Purpose |
+|-----------|---------|
+| **Python 3.13** | Core programming language |
+| **Streamlit** | Interactive web dashboard framework |
+| **Pandas** | Data manipulation and analysis |
+| **NumPy** | Numerical computations |
+| **Plotly** | Interactive data visualizations |
+| **Matplotlib** | Statistical plotting |
+| **Git & GitHub** | Version control |
+
+## 📊 Dataset Overview
+
+**Source:** IPL Ball-by-Ball Dataset (2008-2025)
+
+**Coverage:**
+- 1,169+ matches
+- 278,000+ deliveries
+- 18 seasons
+- 14 teams
+- Complete match and delivery-level data
+
+**Key Data Files:**
+- `deliveries_updated_ipl_upto_2025.csv` - Ball-by-ball delivery data
+- `matches_updated_ipl_upto_2025.csv` - Match summary data
+- Historical data from 2008 to 2025
+
+## 💻 How to Use
+
+### Navigating the Dashboard
+
+1. **Launch the app** - Run `streamlit run dashboard/app.py`
+2. **Explore modules** - Use the left sidebar to navigate between analytics pages
+3. **Select filters** - Choose a player, bowler, team, or venue from dropdowns
+4. **View visualizations** - Interactive charts update based on your selections
+5. **Interact with charts** - Hover for details, zoom, pan, and download charts
+
+### Example Workflows
+
+**Analyze a specific player:**
+1. Go to Player Analytics
+2. Select player from dropdown
+3. Browse through Career Overview, Performance, and Advanced tabs
+4. Check highest scores, milestones, and performance against teams
+
+**Compare teams:**
+1. Go to Team Analytics
+2. Select a team
+3. Check season performance, top players, and head-to-head records
+
+**Explore venues:**
+1. Go to Venue Analytics
+2. Select a venue
+3. View team performance and historical trends at that venue
+
+## 🔍 Key Functions
+
+### Analytics Functions
+- `player_runs_by_season()` - Player runs progression
+- `player_runs_against_teams()` - Runs scored against specific teams
+- `bowler_summary()` - Complete bowler statistics
+- `team_win_by_season()` - Team win percentage trends
+- And more...
+
+### Visualization Functions
+- `horizontal_bar()` - Plotly bar charts
+- `line_chart()` - Line progression charts
+- `pie_chart()` - Distribution charts
+
+## � Portfolio Notes
+
+- Add screenshots of the dashboard to the repository README when sharing the project publicly.
+- If you deploy it to Streamlit Cloud, add the live URL in the README for quick recruiter access.
+
+## �📈 Future Enhancements
+
+- [ ] Player comparison tool
+- [ ] Match prediction model
+- [ ] Advanced filtering options
+- [ ] Export functionality (PDF, CSV)
+- [ ] Real-time data updates
+- [ ] Player injury impact analysis
+- [ ] Advanced statistics (runs per over, dot ball percentage)
+- [ ] Trend analysis and forecasting
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request or open an issue for bugs and feature requests.
+
+## 📝 License
+
+This project is open source and available under the MIT License.
+
+## 👤 Author
+
+Shreyas TK
+
+## 📞 Support
+
+For questions or issues, please open an issue on GitHub or contact the project maintainer.
+
+---
+
+**Last Updated:** 2025 IPL Season | Data Coverage: 2008-2025

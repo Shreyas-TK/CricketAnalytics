@@ -1,6 +1,6 @@
 import streamlit as st
 
-from common import (
+from dashboard.common import (
     configure_page,
     get_data,
     metric_card,
@@ -8,7 +8,11 @@ from common import (
     render_missing_data_error,
     render_sidebar,
 )
-from src.ml.predictive_model import get_match_outcome_model, predict_match_winner
+from src.ml.predictive_model import (
+    explain_model_features,
+    get_match_outcome_model,
+    predict_match_winner,
+)
 
 configure_page("Match Prediction", "🤖")
 render_sidebar()
@@ -91,3 +95,8 @@ with st.expander("How this prediction works"):
         "The model uses team matchups, venue patterns, toss outcomes, and season timing to estimate the likely winner of an IPL match. "
         "It is trained on historical IPL match data and refreshed from local persistence for fast predictions."
     )
+    feature_importance = explain_model_features(model, matches)
+    if feature_importance:
+        st.markdown("**Top model drivers:**")
+        for item in feature_importance:
+            st.write(f"- {item['feature']}: {item['importance']:.3f}")

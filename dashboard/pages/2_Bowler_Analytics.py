@@ -1,6 +1,6 @@
 import streamlit as st
 
-from common import (
+from dashboard.common import (
     configure_page,
     get_data,
     metric_card,
@@ -63,7 +63,7 @@ with tab1:
         season_wickets = wickets_by_season(deliveries, matches, bowler)
     st.plotly_chart(
         line_chart(season_wickets, "season", "wickets", "Wickets by Season"),
-        use_container_width=True,
+        width='stretch',
     )
 
 with tab2:
@@ -80,7 +80,7 @@ with tab2:
                 "batting_team",
                 "Wickets Against Teams",
             ),
-            use_container_width=True,
+            width='stretch',
         )
 
     with col2:
@@ -91,7 +91,7 @@ with tab2:
                 "venue",
                 "Wickets by Venue",
             ),
-            use_container_width=True,
+            width='stretch',
         )
 
 with tab3:

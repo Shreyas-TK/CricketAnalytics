@@ -14,4 +14,4 @@ def test_ml_model_persistence():
     model, status = get_match_outcome_model(matches)
     assert model is not None
     assert isinstance(status, str)
-    assert status == "Saved model loaded" or status.endswith("%")
+    assert status == "Saved model loaded" or "Accuracy" in status or "F1" in status

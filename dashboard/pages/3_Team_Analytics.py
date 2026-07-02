@@ -1,6 +1,6 @@
 import streamlit as st
 
-from common import (
+from dashboard.common import (
     configure_page,
     get_data,
     metric_card,
@@ -52,7 +52,7 @@ with tab1:
         season = team_win_by_season(matches, team)
     st.plotly_chart(
         line_chart(season, "season", "win_pct", "Win % by Season"),
-        use_container_width=True,
+        width='stretch',
     )
 
 with tab2:
@@ -69,7 +69,7 @@ with tab2:
                 "batsman",
                 "Top Run Scorers",
             ),
-            use_container_width=True,
+            width='stretch',
         )
 
     with col2:
@@ -80,5 +80,5 @@ with tab2:
                 "bowler",
                 "Top Wicket Takers",
             ),
-            use_container_width=True,
+            width='stretch',
         )

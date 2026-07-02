@@ -1,6 +1,6 @@
 import streamlit as st
 
-from common import (
+from dashboard.common import (
     configure_page,
     get_data,
     metric_card,
@@ -9,6 +9,7 @@ from common import (
     render_sidebar,
 )
 from src.analytics.batting import (
+    compare_players_summary,
     player_batting_summary,
     player_dismissal_types,
     player_highest_score,
@@ -58,6 +59,19 @@ st.divider()
 
 st.markdown("### Player performance overview")
 
+st.caption("Tip: compare two or more batters side by side to spot differences in workload and efficiency.")
+compare_players = st.multiselect(
+    "Compare with other players",
+    sorted(deliveries["batsman"].dropna().unique()),
+    default=[],
+)
+
+if compare_players:
+    comparison_df = compare_players_summary(deliveries, matches, [player, *compare_players])
+    st.dataframe(comparison_df, width='stretch', hide_index=True)
+
+st.divider()
+
 tab1, tab2, tab3 = st.tabs(["📈 Career", "🎯 Matchups", "📊 Scoring"])
 
 with tab1:
@@ -65,7 +79,7 @@ with tab1:
         season_runs = player_runs_by_season(deliveries, matches, player)
     st.plotly_chart(
         line_chart(season_runs, "season", "batsman_runs", "Runs by Season"),
-        use_container_width=True,
+        width='stretch',
     )
 
 with tab2:
@@ -82,7 +96,7 @@ with tab2:
                 "bowling_team",
                 "Runs Against Teams",
             ),
-            use_container_width=True,
+            width='stretch',
         )
 
     with col2:
@@ -93,7 +107,7 @@ with tab2:
                 "venue",
                 "Runs by Venue",
             ),
-            use_container_width=True,
+            width='stretch',
         )
 
 with tab3:
@@ -113,7 +127,7 @@ with tab3:
                     "dismissals",
                     "Dismissal Types",
                 ),
-                use_container_width=True,
+                width='stretch',
             )
 
     with col2:
@@ -124,5 +138,5 @@ with tab3:
                 "Runs Scored",
                 "Scoring Distribution",
             ),
-            use_container_width=True,
+            width='stretch',
         )

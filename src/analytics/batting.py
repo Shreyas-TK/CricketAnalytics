@@ -239,3 +239,35 @@ def player_milestones(
         "50s": int(((innings >= 50) & (innings < 100)).sum()),
         "100s": int((innings >= 100).sum()),
     }
+
+
+def compare_players_summary(
+    deliveries: pd.DataFrame,
+    matches: pd.DataFrame | None,
+    players: list[str],
+) -> pd.DataFrame:
+    """Return a compact comparison table for multiple batters."""
+    if not players:
+        return pd.DataFrame(columns=["player", "Runs", "Average", "Strike Rate", "Highest Score"])
+
+    rows: list[dict[str, Any]] = []
+    for player in players:
+        player_df = _player_deliveries(deliveries, player)
+        legal_balls = player_df[player_df["isWide"] != 1]
+        runs = int(player_df["batsman_runs"].sum())
+        balls_faced = int(len(legal_balls))
+        outs = int((player_df["player_dismissed"] == player).sum())
+        strike_rate_value = runs / balls_faced * 100 if balls_faced else 0
+        average = runs / outs if outs else runs
+        highest_score = player_highest_score(deliveries, player)
+        rows.append(
+            {
+                "player": player,
+                "Runs": runs,
+                "Average": round(average, 2),
+                "Strike Rate": round(strike_rate_value, 2),
+                "Highest Score": highest_score,
+            }
+        )
+
+    return pd.DataFrame(rows)

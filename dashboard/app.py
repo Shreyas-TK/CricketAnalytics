@@ -1,6 +1,6 @@
 import streamlit as st
 
-from common import (
+from dashboard.common import (
     configure_page,
     get_data,
     metric_card,
@@ -11,6 +11,8 @@ from common import (
     section_title,
 )
 from src.analytics.team import highest_scoring_venues, team_win_percentage, toss_impact
+from src.services.data_quality import validate_ipl_data
+from src.services.metadata import get_project_metadata_summary
 
 configure_page("Overview", "🏏")
 render_sidebar()
@@ -31,6 +33,8 @@ team_count = (
     set(matches["team1"].dropna())
     .union(set(matches["team2"].dropna()))
 )
+data_quality = validate_ipl_data(matches, deliveries)
+project_metadata = get_project_metadata_summary()
 
 section_title("Key Metrics")
 col1, col2, col3, col4 = st.columns(4, gap="medium")
@@ -39,10 +43,29 @@ metric_card(col2, "Total Deliveries", f"{total_deliveries:,}")
 metric_card(col3, "Seasons Covered", f"{season_count}")
 metric_card(col4, "Teams", f"{len(team_count)}")
 
+section_title("Data Quality")
+with st.container():
+    st.markdown(
+        f"**Status:** {data_quality['status'].upper()} | **Matches:** {data_quality['matches_rows']:,} | **Deliveries:** {data_quality['deliveries_rows']:,}"
+    )
+    if data_quality["issues"]:
+        st.warning("\n".join(data_quality["issues"]))
+    else:
+        st.success("Core match and delivery schemas validated successfully.")
+
+section_title("Project Metadata")
+with st.container():
+    st.markdown(
+        f"**Project:** {project_metadata['project_name']}  \
+        **Version:** {project_metadata['version']}  \
+        **Data source:** {project_metadata['data_source']}"
+    )
+    st.caption(f"Generated at: {project_metadata['generated_at']}")
+
 section_title("Explore Analytics")
 st.markdown(
     "Choose a focus area to discover batting, bowling, team, and venue performance details. "
-    "Each page combines metrics, charts, and trends for fast IPL insight." 
+    "Each page combines metrics, charts, and trends for fast IPL insight."
 )
 col1, col2 = st.columns(2, gap="large")
 

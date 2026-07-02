@@ -1,6 +1,6 @@
 import streamlit as st
 
-from common import (
+from dashboard.common import (
     configure_page,
     get_data,
     metric_card,
@@ -63,7 +63,7 @@ with tab1:
                 "avg_score",
                 "Average Innings Score by Season",
             ),
-            use_container_width=True,
+            width='stretch',
         )
 
 with tab2:
@@ -76,7 +76,7 @@ with tab2:
     with col1:
         st.plotly_chart(
             horizontal_bar(team_wins, "wins", "winner", "Most Wins at Venue"),
-            use_container_width=True,
+            width='stretch',
         )
 
     with col2:
@@ -87,7 +87,7 @@ with tab2:
                 "venue",
                 "Highest Scoring Venues",
             ),
-            use_container_width=True,
+            width='stretch',
         )
 
     with col3:
@@ -98,5 +98,5 @@ with tab2:
                 "venue",
                 "Toss Impact by Venue",
             ),
-            use_container_width=True,
+            width='stretch',
         )
