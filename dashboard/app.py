@@ -4,14 +4,6 @@ import streamlit as st
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-import streamlit as st
-import streamlit as st
-from dashboard.common import (
-    configure_page,
-    get_data,
-    metric_card,
-    format_currency,
-)
 from dashboard.common import (
     configure_page,
     get_data,
