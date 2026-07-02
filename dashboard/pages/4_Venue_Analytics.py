@@ -1,4 +1,8 @@
+import sys
+import os
 import streamlit as st
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from dashboard.common import (
     configure_page,
