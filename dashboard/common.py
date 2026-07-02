@@ -1,8 +1,9 @@
+from __future__ import annotations
 import sys
 from pathlib import Path
 from typing import Any
 
-from __future__ import annotations
+
 
 import pandas as pd
 import streamlit as st
