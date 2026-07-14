@@ -15,6 +15,9 @@ from src.analytics.team import (
     toss_impact,
     venue_toss_impact,
 )
+
+from src.ml.predictive_model import build_match_outcome_model
+
 from src.data_loader import load_data
 
 
@@ -44,6 +47,12 @@ def main() -> None:
     print(matches.columns)
     print(player_runs_against_teams(deliveries, "V Kohli"))
     print(player_runs_by_venue(deliveries, matches, "V Kohli"))
+
+    model, metrics = build_match_outcome_model(matches)
+
+    print(f"Accuracy: {metrics['accuracy']:.2%}")
+    print(f"F1 Score (weighted): {metrics['f1_weighted']:.2%}")
+    print(metrics['classification_report'])
 
 
 if __name__ == "__main__":
