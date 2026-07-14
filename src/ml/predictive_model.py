@@ -68,7 +68,7 @@ def build_match_outcome_model(matches: pd.DataFrame) -> tuple[Pipeline, dict[str
     )
 
     pipeline = Pipeline(
-        steps=[("preprocess", preprocess), ("clf", RandomForestClassifier(random_state=42, n_estimators=200))]
+    steps=[("preprocess", preprocess), ("clf", RandomForestClassifier(random_state=42, n_estimators=200, class_weight="balanced"))]
     )
 
     X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.2, random_state=42, stratify=target)
